@@ -4,10 +4,10 @@ reactjs-hammerjs
 reactjs hammerjs integration with animations
 
 ## How to use it?
-Download this repo 
-cd to it
-cast [python -m SimpleHTTPServer [port]](http://stackoverflow.com/a/532710)
-and open http://localhost:[port]/examples/reacthammer.html 
+* Download this repo 
+* cd to it
+* cast [python -m SimpleHTTPServer [port]](http://stackoverflow.com/a/532710)
+* and open http://localhost:[port]/examples/reacthammer.html 
 
 it is not really well structured (actually bad, I just put everything that I have for this moment in one example) but u can click and figure out what happens
 
