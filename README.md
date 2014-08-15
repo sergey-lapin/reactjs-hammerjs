@@ -4,7 +4,7 @@ reactjs-hammerjs
 reactjs hammerjs integration with animations
 
 ## How to use it?
-Just download this repo and open **examples/reacthammer.html** it is not really well structured (bad I just put everything that I have for this moment in one example) but u can click and figure up what happens
+Just download this repo and open **examples/reacthammer.html** it is not really well structured (actually bad, I just put everything that I have for this moment in one example) but u can click and figure out what happens
 
 ## hammerjs
 This example inspired by [old hammer](https://github.com/thecoded/hammer.js) (new hammer is a way too different for me to understand and use it here) especially by this [page](http://thecoded.com/swipe/examples/events.html) which was extremely useful during testing events support on mobile phones.
