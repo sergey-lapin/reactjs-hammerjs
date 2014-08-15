@@ -18,7 +18,7 @@ HitArea is a main react component  of this repo it can log self on EventsPane ju
 
 ```javascript
 React.renderComponent(         
-       </HitArea>,
+       <HitArea eventsPane="true"/>,
     $('#example')[0]
 );
 ```
