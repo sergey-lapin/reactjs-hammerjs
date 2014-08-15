@@ -14,7 +14,7 @@ I did not find proper [syntatic touch events](http://facebook.github.io/react/do
 
 "touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "rotateleft", "rotateright", "pinch", "pinchin", "pinchout"
 
-Cause hammer use real dom nodes react will weaken by this.getDOMNode() calls, but it this reeeeeealy fast.  
+Cause hammer use real dom nodes react will weaken by this.getDOMNode() calls, but it still reeeeeealy fast.  
 
 ## HitArea
 HitArea is a main react component  of this repo it can log self on EventsPane just like that
