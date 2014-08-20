@@ -1,6 +1,6 @@
 /** @jsx React.DOM */
 
-var BlinkedThing = React.createClass({
+var BlinkingThing = React.createClass({
     mixins: [React.Animate],
     blink: function () {
         var that = this;

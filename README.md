@@ -1,61 +1,64 @@
-reactjs-hammerjs
-================
+##Motivation
 
-reactjs hammerjs integration with animations
+I am a big fan of gulp and sadly I did not found any gulp webpack seed project, so I made one.
+This seed based on [React Infinite Scroll component](https://github.com/lapanoid/react-infinite-scroll)
 
-## How to use it?
-* Download this repo 
-* cd to it
-* cast [python -m SimpleHTTPServer [port]](http://stackoverflow.com/a/532710)
-* and open http://localhost:[port]/examples/reacthammer.html 
+##Install
 
-it is not really well structured (actually bad, I just put everything that I have for this moment in one example) but u can click and figure out what happens
+clone this repo
 
-## hammerjs
-This example inspired by [old hammer](https://github.com/thecoded/hammer.js) (new hammer is a way too different for me to understand and use it here) especially by this [page](http://thecoded.com/swipe/examples/events.html) which was extremely useful during testing events support on mobile phones.
-
-## reactjs 
-I did not find proper [syntatic touch events](http://facebook.github.io/react/docs/events.html#touch-events) support in react yet as I want to be able to use all hammer suported events:
-
-"touch", "release", "hold", "tap", "doubletap", "dragstart", "drag", "dragend", "dragleft", "dragright", "dragup", "dragdown", "swipe", "swipeleft", "swiperight", "swipeup", "swipedown", "transformstart", "transform", "transformend", "rotate", "rotateleft", "rotateright", "pinch", "pinchin", "pinchout"
-
-Cause hammer use real dom nodes react will weaken by this.getDOMNode() calls, but it still reeeeeealy fast.  
-
-## HitArea
-HitArea is a main react component  of this repo it can log self on EventsPane just like that
-
-```javascript
-React.renderComponent(         
-       <HitArea eventsPane="true"/>,
-    $('#example')[0]
-);
+```bash
+npm i
+```
+<!---
+#OR Use by package managers
+## via npm 
+```bash
+npm install react-infinite-scroll-webpack
 ```
 
-HitArea is transcludable u can use it like that: 
+## via bower
+```bash
+bower install react-infinite-scroll
+```
+--->
 
-```javascript
-React.renderComponent(         
-        <HitArea>
-            <BlinkedThing color="red" blinkBack="100" blinkTo="100" >
-                <div style={{width: '200px', height: '200px'}}></div>
-            </BlinkedThing>
-        </HitArea>,
-    $('#example')[0]
-);
+##Some Webpack livereload magic
+Just run
+```bash
+gulp
+```
+to use Webpack dev server.
+You can play with source code and it will be livereloaded on change.
+
+##Usual build
+```bash
+gulp build-all
+```
+You can also build prod and dev separately.
+
+```bash
+gulp build-prod
+gulp build-dev
+```
+Check dist folder for index.html after build.
+
+
+##TODO
+* fix [issue](https://github.com/lapanoid/gulp-webpack-seed/issues/1)
+* move from gulp-clean to gulp rimraf
+* fix web dev server configuration ( path: "/" not path: "./dist/dev/scripts", but need both)
+* support generation of amd dist assets
+
+##Some considerations
+Firstly, my plan was to split distrs and source project. But this introduce a lot of problems and complexity, which require solvation before we can actually use npm to start reuse and manage packages. Screw that (at least for now). 
+All I need to start use npm is version bump -> publish task for sourse project, and define path in main property of package.json
+
+```
+{
+  "name": "myexposedmodulename",
+  "main": "src/scripts/myexposedmodulename.jsx",
+  ...
 ```
 
-It tries to pass all hammer events to childs if they have receiveHammerEvent method
-
-U can restrict HitArea to observe only some of events like that:
-
-```javascript
-React.renderComponent(         
-       <HitArea events={["dragstart", "drag", "dragend"]}>
-         ...
-      </HitArea>,
-    $('#example')[0]
-);
-```
-
-## reactjs animate
-I animate examples using that [thing](https://github.com/pleasetrythisathome/react.animate) it depends on [d3](http://d3js.org/)
+After that our package is can be required by webpack 
