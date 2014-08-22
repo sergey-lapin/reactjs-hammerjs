@@ -30,7 +30,6 @@ module.exports = {
     devtool: false,
     context: __dirname + '/src',
 
-
     stats: {
         colors: true,
         reasons: true
@@ -38,7 +37,9 @@ module.exports = {
 
     resolve: {
         // Allow to omit extensions when requiring these files
-        extensions: ['', '.js', '.jsx']
+        extensions: ['', '.js', '.jsx'],
+        modulesDirectories: ["./node_modules", "./bower_components", "./libs"],
+        packageFiles: ['package.json', 'bower.json', '.bower.json']
     },
 
     module: {
@@ -73,7 +74,11 @@ module.exports = {
             {
                 test: /\.jsx$/,
                 loader: 'jsx-loader'
-            }
+            },
+            { test: /\.woff$/, loader: "url-loader?prefix=font/&limit=5000" },
+            { test: /\.eot$/, loader: "file-loader?prefix=font/" },
+            { test: /\.ttf$/, loader: "file-loader?prefix=font/" },
+            { test: /\.svg$/, loader: "file-loader?prefix=font/" }
         ]
     }
 }

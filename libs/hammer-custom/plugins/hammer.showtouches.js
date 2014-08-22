@@ -1,4 +1,4 @@
-(function(Hammer) {
+module.exports = (function(Hammer) {
   /**
    * ShowTouches gesture
    * show all touch on the screen by placing elements at there pageX and pageY
@@ -67,4 +67,4 @@
       }
     });
   };
-})(window.Hammer);
+})

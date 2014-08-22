@@ -1,5 +1,6 @@
 /** @jsx React.DOM */
-
+'use strict';
+var React = require('react');
 var BlinkingThing = React.createClass({
     mixins: [React.Animate],
     blink: function () {
@@ -42,3 +43,5 @@ var BlinkingThing = React.createClass({
         return (<div style={style}>{this.props.children}</div>);
     }
 });
+
+module.exports = BlinkingThing

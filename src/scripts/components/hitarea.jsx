@@ -1,4 +1,10 @@
 /** @jsx React.DOM */
+'use strict';
+var React = require('react/addons');
+var Hammer = require('hammer-custom');
+Hammer.plugins.fakeMultitouch();
+
+
 
 var EventsPane = React.createClass({
     preventDefault: function () {
@@ -94,11 +100,14 @@ var HitArea = React.createClass({
     },
     componentDidMount: function () {
         var events = this.props.events ? this.props.events : this.state.all_events;
-
-        var hammertime = Hammer(this.getDOMNode(), {
-            prevent_default: true,
-            no_mouseevents: true
+       var hammertime = Hammer(this.getDOMNode(), {
+            prevent_default: false,
+            no_mouseevents: false,
+            transform_min_scale: 0,
+            touchAction:'pan-y'
         }).on(events.join(" "), this.logEvent);
+
+
         this.setState({ hammertime: hammertime })
     },
     render: function () {
@@ -127,3 +136,5 @@ var HitArea = React.createClass({
         </div>);
     }
 });
+
+module.exports = HitArea
