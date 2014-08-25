@@ -33,6 +33,7 @@ var LongTappedColored = React.createClass({
                 color = 'orange';
                 break;
         }
+
         this.setState({touchState:touchState}, function () {
             this.changeColor(color);
         })
@@ -59,20 +60,30 @@ var LongTappedThing = React.createClass({
     },
     receiveHammerEvent: function (ev) {
         var touchState;
+        var that = this;
         if (ev) {
             var value = ev.type;
-            var that = this;
+            console.log(value)
             switch (value) {
                 case 'touch':
                     touchState = 'touched';
-                    break;
+                    this.setState({touchState: 'touched'}, function () {
+                        setTimeout(function () {
+                            if(that.state.touchState == 'touched'){
+                                that.setState({touchState: 'released'})
+                            }
+                        }, 500)
+                    });
+                    return;
+                case 'release':
+                    if(that.state.touchState == 'touched'){
+                        that.setState({touchState: 'released'})
+                    }
+                    return;
                 case 'swipe':
                     touchState = 'released';
                     break;
                 case 'drag':
-                    touchState = 'released';
-                    break;
-                case 'release':
                     touchState = 'released';
                     break;
                 case 'hold':
@@ -84,16 +95,15 @@ var LongTappedThing = React.createClass({
                             that.setState({touchState: 'released'})
                         }, 500)
                     });
-                    touchState = 'taped';
                     return;
             }
         }
 
         this.setState({touchState: touchState})
     },
-    shouldComponentUpdate: function () {
+    componentDidUpdate: function () {
+
         this.refs.LongTappedColored.reactOnTouchState(this.state.touchState);
-        return true;
     },
     getInitialState: function () {
         return {touchState: 'released'}

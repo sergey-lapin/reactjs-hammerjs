@@ -4,8 +4,6 @@ var React = require('react/addons');
 var Hammer = require('hammer-custom');
 Hammer.plugins.fakeMultitouch();
 
-
-
 var EventsPane = React.createClass({
     preventDefault: function () {
         this.props.hammertime.options.prevent_default = this.checked;
@@ -68,6 +66,7 @@ var EventsPane = React.createClass({
 var HitArea = React.createClass({
     mixins: [React.Animate],
     logEvent: function (ev) {
+        console.log(ev.type)
         var that = this;
         if (!ev.gesture) {
             return;
@@ -107,7 +106,6 @@ var HitArea = React.createClass({
             touchAction:'pan-y'
         }).on(events.join(" "), this.logEvent);
 
-
         this.setState({ hammertime: hammertime })
     },
     render: function () {
@@ -137,4 +135,4 @@ var HitArea = React.createClass({
     }
 });
 
-module.exports = HitArea
+module.exports = HitArea;
