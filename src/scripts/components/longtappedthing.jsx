@@ -2,7 +2,7 @@
 'use strict';
 var React = require('react.animate');
 
-var LongTappedColored = React.createClass({
+var LongTapColorAnimation = React.createClass({
     mixins: [React.Animate],
     changeColor: function (color) {
         if (!color || this.state.color == color) return;
@@ -47,11 +47,19 @@ var LongTappedColored = React.createClass({
             backgroundColor: this.state.color
         };
 
+        var index = 0,
+            children = React.Children.map(this.props.children, function (child) {
+                return React.addons.cloneWithProps(child, {
+                    ref: 'child-' + (index++)
+                });
+            });
+
+
         return (<div style={style}>{this.props.children}</div>);
     }
 });
 
-var LongTappedThing = React.createClass({
+var LongTapStateHolder = React.createClass({
     componentDidReceiveProps: function () {
         this.setState({touchState: 'released'})
     },
@@ -63,7 +71,6 @@ var LongTappedThing = React.createClass({
         var that = this;
         if (ev) {
             var value = ev.type;
-            console.log(value)
             switch (value) {
                 case 'touch':
                     touchState = 'touched';
@@ -102,16 +109,34 @@ var LongTappedThing = React.createClass({
         this.setState({touchState: touchState})
     },
     componentDidUpdate: function () {
-
-        this.refs.LongTappedColored.reactOnTouchState(this.state.touchState);
+        var that = this;
+        _.each(this.refs, function (ref) {
+            ref.reactOnTouchState(that.state.touchState);
+        })
     },
     getInitialState: function () {
         return {touchState: 'released'}
     },
     render: function () {
-        return (<LongTappedColored ref='LongTappedColored'>{this.props.children}
-        </LongTappedColored>);
+        var index = 0,
+            children = React.Children.map(this.props.children, function (child) {
+                return React.addons.cloneWithProps(child, {
+                    ref: 'child-' + (index++)
+                });
+            });
+
+        return (<div>{children}
+        </div>);
     }
 });
 
-module.exports = LongTappedThing
+var LongTappedWrapper = React.createClass({
+    receiveHammerEvent: function (ev) {
+        this.refs.LongTapStateHolder.receiveHammerEvent(ev);
+    },
+    render: function () {
+        return (<LongTapStateHolder ref="LongTapStateHolder"><LongTapColorAnimation>{this.props.children}</LongTapColorAnimation></LongTapStateHolder>);
+    }
+});
+
+module.exports = LongTappedWrapper
