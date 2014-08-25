@@ -1,22 +1,15 @@
 /** @jsx React.DOM */
 'use strict';
 
-
 var React = require('react/addons');
 var Utils = require('../utils.jsx');
 
 var LongTapStateHolder = React.createClass({
-    getInitialState: function () {
-        return {touchState: 'released'}
-    },
     getDefaultProps: function() {
         return {
             tapReleaseTime: 500,
             touchedReleaseTime: 500
         };
-    },
-    componentDidReceiveProps: function () {
-        this.setState({touchState: 'released'})
     },
     componentDidMount: function () {
         this.setState({touchState: 'released'})

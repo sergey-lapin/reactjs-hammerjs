@@ -5,26 +5,33 @@
 'use strict';
 var $ = require('jquery');
 var React = require('react/addons');
-var ReactBoostrap = require('react-bootstrap');
+
 require('bootstrap/dist/css/bootstrap.css');
 var HitArea = require('./components/hitarea.jsx');
 var LongTappedThing = require('./components/longtappedthing.jsx');
 var BlinkingThing = require('./components/blinkingthing.jsx');
 var InfiniteScroll = require('react-infinite-scroll-seed')();
+
 var reactScrollComponents = require('react-scroll-components');
 var ScrollBlocker = reactScrollComponents.ScrollBlocker;
 var ScrollListenerMixin = reactScrollComponents.ScrollListenerMixin;
+
+var ReactBoostrap = require('react-bootstrap');
 var OverlayTrigger = ReactBoostrap.OverlayTrigger;
 var Button = ReactBoostrap.Button;
 var ButtonToolbar = ReactBoostrap.ButtonToolbar;
 var Popover = ReactBoostrap.Popover;
+
 var moment = require('moment');
+
+var Mixins = require('./mixins.jsx');
+var UpdateDimensionsOnResize = Mixins.UpdateDimensionsOnResize;
+
+var GlobalButton = require('./components/globalbutton.jsx');
+var OverlayAdjustWindowTrigger = require('./components/overlayadjustwindowtrigger.jsx');
 
 var _ = require('lodash');
 
-/** @jsx React.DOM */
-
-//var prevent_scroll_drag = true;
 var filteredEvents = ["touch", "release", "hold", "tap", 'swipe', 'drag'];
 
 /*<HitArea events={filteredEvents}>
@@ -61,89 +68,8 @@ var filteredEvents = ["touch", "release", "hold", "tap", 'swipe', 'drag'];
 //</div>, document.getElementById('content')); // jshint ignore:line
 
 
-var OverlayAdjustWindowTrigger = React.createClass({
-    getXY : function (event) {
-        var res = event.gesture.touches[0]
-        return {x: res.pageX, y: res.pageY}
-    },
-    receiveHammerEvent: function (ev) {
-        var that = this;        if (ev) {
-            var value = ev.type;
-            switch (value) {
-                case 'tap':
-                    that.setState({placement: that.calcPlacement(that.getXY(ev))});
-                    this.refs.OverlayTrigger.toggle();
-                    return;
-            }
-        }
-    },
-    calcPlacement: function (XY) {
-        if (this.props.orientation == 'horizontal') {
-            if (this.props.windowWidth / 2 < XY.x)
-                return 'left';
-            else
-                return 'right';
-        }
 
-        if (this.props.orientation == 'vertical') {
-            if (this.props.windowHeight / 2 < XY.y)
-                return 'top';
-            else
-                return 'bottom';
-        }
-    },
-    receiveGlobalHammer: function (e) {
-        var point = this.getXY(e.hammerEv);
-        if(this.refs.OverlayTrigger.state.isOverlayShown && !this.refs.OverlayTrigger.isMine(point)){
-            this.refs.OverlayTrigger.toggle()
-        }
-    },
-    componentDidMount: function () {
-        $(window).on('globalHammer', this.receiveGlobalHammer);
-    },
-    componentDidUnmount: function () {
-        $(window).off('globalHammer', this.receiveGlobalHammer);
-    },
-    getInitialState: function () {
-        return {placement: null}
-    },
-    render: function () {
-        return (
-            <OverlayTrigger ref="OverlayTrigger"
-            trigger="manual"
-            placement={this.state.placement}
-            overlay={this.props.overlay}>
-                {this.props.children}
-            </OverlayTrigger>
-            )
-    }
-});
 
-var UpdateDimensionsOnResize = {
-    updateDimensions: function () {
-        this.setState({ windowHeight: $(window).height(), windowWidth: $(window).width()});
-    },
-    componentWillMount: function () {
-        this.updateDimensions();
-    },
-    componentDidMount: function () {
-        window.addEventListener("resize", this.updateDimensions);
-    },
-    componentWillUnmount: function () {
-        window.removeEventListener("resize", this.updateDimensions);
-    }
-};
-
-var GlobalButton = React.createClass({
-    receiveHammerEvent: function (ev) {
-        var evt = $.Event('globalHammer');
-        evt.hammerEv = ev;
-        $(window).trigger(evt);
-    },
-    render: function () {
-        return (<Button bsStyle="success">Holy guacamole!</Button>)
-    }
-});
 
 var MyComponent = React.createClass({
     mixins: [UpdateDimensionsOnResize],
@@ -159,7 +85,6 @@ var MyComponent = React.createClass({
                 </HitArea>
             </div>
         };
-
 
         var createItem = function (num) {
             var orientation = num % 2 ? 'horizontal' : 'vertical';

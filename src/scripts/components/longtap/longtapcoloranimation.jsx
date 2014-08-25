@@ -15,9 +15,6 @@ var LongTapColorAnimation = React.createClass({
             color: color
         }, this.props.changeColorAnimationTime);
     },
-    componentDidReceiveProps: function () {
-        this.setState({color: this.props.color})
-    },
     componentDidMount: function () {
         this.setState({color: this.props.color})
     },
