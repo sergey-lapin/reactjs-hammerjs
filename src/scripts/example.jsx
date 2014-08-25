@@ -153,9 +153,9 @@ var MyComponent = React.createClass({
         var createLongTappedItem = function (num) {
             return <div key={num}>
                 <HitArea display="inline-block" events={filteredEvents}>
-                    <LongTappedThing color="blue">
+                    <BlinkingThing color="blue">
                         <p>Some paragraph {num}</p>
-                    </LongTappedThing>
+                    </BlinkingThing>
                 </HitArea>
             </div>
         };

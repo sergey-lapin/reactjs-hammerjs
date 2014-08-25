@@ -1,47 +1,17 @@
 /** @jsx React.DOM */
 'use strict';
-var React = require('react');
-var BlinkingThing = React.createClass({
-    mixins: [React.Animate],
-    blink: function () {
-        var that = this;
-        var animateAfter = function () {
-            that.animate({
-                color: 'green'
-            }, that.props.blinkBack);
-        };
-        this.animate({
-            color: 'yellow'
-        }, this.props.blinkTo, animateAfter);
-    },
-    componentDidReceiveProps: function () {
-        this.setState({color: this.props.color})
-    },
-    componentDidMount: function () {
-        this.setState({color: this.props.color})
-    },
-    receiveHammerEvent: function (ev) {
-        if (ev) {
-            var value = ev.type;
+var React = require('react.animate');
+var BlinkStateHolder = require('./blink/blinkstateholder.jsx');
+var BlinkColorAnimation = require('./blink/blinkcoloranimation.jsx');
 
-            switch (value) {
-                case 'tap':
-                    this.blink();
-                    break;
-            }
-        }
-    },
-    getInitialState: function () {
-        return {};
+
+var BlinkpedWrapper = React.createClass({
+    receiveHammerEvent: function (ev) {
+        this.refs.BlinkStateHolder.receiveHammerEvent(ev);
     },
     render: function () {
-        var style = {
-            display: 'inline-block',
-            backgroundColor: this.state.color
-        };
-
-        return (<div style={style}>{this.props.children}</div>);
+        return (<BlinkStateHolder ref="BlinkStateHolder"><BlinkColorAnimation>{this.props.children}</BlinkColorAnimation></BlinkStateHolder>);
     }
 });
 
-module.exports = BlinkingThing
+module.exports = BlinkpedWrapper;
