@@ -100,7 +100,7 @@ var HitArea = React.createClass({
     componentDidMount: function () {
         var events = this.props.events ? this.props.events : this.state.all_events;
        var hammertime = Hammer(this.getDOMNode(), {
-            prevent_default: false,
+            prevent_default: true,
             no_mouseevents: false,
             transform_min_scale: 0,
             touchAction:'pan-y'

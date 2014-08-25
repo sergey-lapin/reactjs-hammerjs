@@ -55,10 +55,10 @@ var filteredEvents = ["touch", "release", "hold", "tap", 'swipe', 'drag'];
     </BlinkingThing>
 </HitArea>*/
 
-React.renderComponent(<div>
-
-    <HitArea eventsPane="true"/>
-</div>, document.getElementById('content')); // jshint ignore:line
+//React.renderComponent(<div>
+//
+//    <HitArea eventsPane="true"/>
+//</div>, document.getElementById('content')); // jshint ignore:line
 
 
 var OverlayAdjustWindowTrigger = React.createClass({
@@ -201,6 +201,6 @@ var MyComponent = React.createClass({
 });
 
 
-//React.renderComponent(<div>
-//    <MyComponent/>
-//</div>, document.getElementById('content')); // jshint ignore:line
+React.renderComponent(<div>
+    <MyComponent/>
+</div>, document.getElementById('content')); // jshint ignore:line
