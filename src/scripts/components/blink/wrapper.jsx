@@ -1,8 +1,8 @@
 /** @jsx React.DOM */
 'use strict';
 var React = require('react.animate');
-var BlinkStateHolder = require('./blink/blinkstateholder.jsx');
-var BlinkColorAnimation = require('./blink/blinkcoloranimation.jsx');
+var BlinkStateHolder = require('./blinkstateholder.jsx');
+var BlinkColorAnimation = require('./blinkcoloranimation.jsx');
 
 
 var BlinkpedWrapper = React.createClass({

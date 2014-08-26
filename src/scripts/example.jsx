@@ -8,8 +8,8 @@ var React = require('react/addons');
 
 require('bootstrap/dist/css/bootstrap.css');
 var HitArea = require('./components/hitarea.jsx');
-var LongTappedThing = require('./components/longtappedthing.jsx');
-var BlinkingThing = require('./components/blinkingthing.jsx');
+var LongTappedThing = require('./components/longtap/wrapper.jsx');
+var BlinkingThing = require('./components/blink/wrapper.jsx');
 var InfiniteScroll = require('react-infinite-scroll-seed')();
 
 var reactScrollComponents = require('react-scroll-components');
@@ -35,41 +35,37 @@ var _ = require('lodash');
 var filteredEvents = ["touch", "release", "hold", "tap", 'swipe', 'drag'];
 
 /*<HitArea events={filteredEvents}>
-    <LongTappedThing color="blue">
-        <div style={{width: '200px', height: '200px'}}></div>
-    </LongTappedThing>
-    <br/>
-    <BlinkingThing color="red" blinkBack="500" blinkTo="500" >
-        <div style={{width: '200px', height: '200px'}}></div>
-    </BlinkingThing>
-    <br/>
-    <BlinkingThing color="red" blinkBack="200" blinkTo="200" >
-        <div style={{width: '200px', height: '200px'}}></div>
-    </BlinkingThing>
-    <br/>
-    <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
-        <div style={{width: '200px', height: '200px'}}></div>
-    </BlinkingThing>
-</HitArea>
-<HitArea display="inline-block" events={filteredEvents}>
-    <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
-        <div style={{width: '200px', height: '200px'}}></div>
-    </BlinkingThing>
-    </HitArea>
-<HitArea display="inline-block" events={filteredEvents}>
-    <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
-        <div style={{width: '200px', height: '200px'}}></div>
-    </BlinkingThing>
-</HitArea>*/
+ <LongTappedThing color="blue">
+ <div style={{width: '200px', height: '200px'}}></div>
+ </LongTappedThing>
+ <br/>
+ <BlinkingThing color="red" blinkBack="500" blinkTo="500" >
+ <div style={{width: '200px', height: '200px'}}></div>
+ </BlinkingThing>
+ <br/>
+ <BlinkingThing color="red" blinkBack="200" blinkTo="200" >
+ <div style={{width: '200px', height: '200px'}}></div>
+ </BlinkingThing>
+ <br/>
+ <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
+ <div style={{width: '200px', height: '200px'}}></div>
+ </BlinkingThing>
+ </HitArea>
+ <HitArea display="inline-block" events={filteredEvents}>
+ <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
+ <div style={{width: '200px', height: '200px'}}></div>
+ </BlinkingThing>
+ </HitArea>
+ <HitArea display="inline-block" events={filteredEvents}>
+ <BlinkingThing color="red" blinkBack="100" blinkTo="100" >
+ <div style={{width: '200px', height: '200px'}}></div>
+ </BlinkingThing>
+ </HitArea>*/
 
 //React.renderComponent(<div>
 //
 //    <HitArea eventsPane="true"/>
 //</div>, document.getElementById('content')); // jshint ignore:line
-
-
-
-
 
 var MyComponent = React.createClass({
     mixins: [UpdateDimensionsOnResize],
@@ -77,11 +73,24 @@ var MyComponent = React.createClass({
         var that = this;
 
         var createLongTappedItem = function (num) {
+            var orientation = num % 2 ? 'horizontal' : 'vertical';
+
+            var overlay = (<Popover>
+                <HitArea events={['touch']}>
+                    <GlobalButton/>
+                </HitArea>
+            </Popover>);
+
             return <div key={num}>
                 <HitArea display="inline-block" events={filteredEvents}>
-                    <BlinkingThing color="blue">
+                    <LongTappedThing
+                    overlay={overlay}
+                    orientation={orientation}
+                    windowWidth={that.state.windowWidth}
+                    windowHeight={that.state.windowHeight}
+                    color="blue">
                         <p>Some paragraph {num}</p>
-                    </BlinkingThing>
+                    </LongTappedThing>
                 </HitArea>
             </div>
         };
@@ -90,7 +99,10 @@ var MyComponent = React.createClass({
             var orientation = num % 2 ? 'horizontal' : 'vertical';
 
             var overlay = (<Popover>
-                <HitArea events={['touch']}><GlobalButton/></HitArea></Popover>);
+                <HitArea events={['touch']}>
+                    <GlobalButton/>
+                </HitArea>
+            </Popover>);
 
             return <div key={num}>
                 <HitArea display="inline-block" events={filteredEvents}>

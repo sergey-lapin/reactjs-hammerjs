@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 'use strict';
 var React = require('react/addons');
+var Utils = require('../utils.jsx');
 
 var LongTapColorAnimation = React.createClass({
     mixins: [React.Animate],
@@ -47,11 +48,15 @@ var LongTapColorAnimation = React.createClass({
     getInitialState: function () {
         return {touchState: null}
     },
+    componentDidUpdate: function () {
+        this.props.onStateChange(this.state.touchState)
+    },
     render: function () {
         var style = {
             display: 'inline-block',
             backgroundColor: this.state.color
         };
+
 
         return (<div style={style}>{this.props.children}</div>);
     }

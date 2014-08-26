@@ -2,6 +2,7 @@
 'use strict';
 
 var React = require('react/addons');
+var $ = require('jquery');
 
 var ReactBoostrap = require('react-bootstrap');
 var OverlayTrigger = ReactBoostrap.OverlayTrigger;
@@ -11,19 +12,33 @@ var Popover = ReactBoostrap.Popover;
 
 var OverlayAdjustWindowTrigger = React.createClass({
     getXY : function (event) {
-        var res = event.gesture.touches[0]
+        var res = event.gesture.touches[0];
         return {x: res.pageX, y: res.pageY}
     },
     receiveHammerEvent: function (ev) {
-        var that = this;        if (ev) {
+        var that = this;
+        if (ev) {
             var value = ev.type;
             switch (value) {
                 case 'tap':
-                    that.setState({placement: that.calcPlacement(that.getXY(ev))});
-                    this.refs.OverlayTrigger.toggle();
+                    this.showInPoint(this.getXY(ev));
                     return;
             }
         }
+    },
+    showInPoint : function (xy) {
+        this.setState({placement: this.calcPlacement(xy)});
+        this.refs.OverlayTrigger.toggle();
+    },
+    toggle: function () {
+        this.refs.OverlayTrigger.toggle();
+    },
+    show: function () {
+        this.refs.OverlayTrigger.show();
+    },
+    hide: function () {
+        this.refs.OverlayTrigger.hide();
+        if(this.props.onHide) this.props.onHide();
     },
     calcPlacement: function (XY) {
         if (this.props.orientation == 'horizontal') {
@@ -43,7 +58,7 @@ var OverlayAdjustWindowTrigger = React.createClass({
     receiveGlobalHammer: function (e) {
         var point = this.getXY(e.hammerEv);
         if(this.refs.OverlayTrigger.state.isOverlayShown && !this.refs.OverlayTrigger.isMine(point)){
-            this.refs.OverlayTrigger.toggle()
+            this.hide()
         }
     },
     componentDidMount: function () {
